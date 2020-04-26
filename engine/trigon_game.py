@@ -29,12 +29,12 @@ class TrigonGame:
 
 if __name__ == "__main__":
     game = TrigonGame(seed=566)
-    print(game.current_shapes)
-    for i in range(100):
-        x, y = 1, 1
-        while not game.place_shape(0, x, y):
-            x = random.randint(1, 15)
-            y = random.randint(1, 15)
-        print(game.trigon)
+    # print(game.current_shapes)
+    # for i in range(100):
+    #     x, y = 1, 1
+    #     while not game.place_shape(0, x, y):
+    #         x = random.randint(1, 15)
+    #         y = random.randint(1, 15)
+    #     print(game.trigon)
 
     print(game.trigon)

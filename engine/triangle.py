@@ -1,6 +1,3 @@
-from trigon_rules import size
-
-
 class Triangle:
 
     filled = False
@@ -14,7 +11,7 @@ class Triangle:
 
     is_up = False
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, size):
         self.x = x
         self.y = y
 
