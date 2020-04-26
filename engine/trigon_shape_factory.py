@@ -17,35 +17,35 @@ class ShapeFactory:
             TrigonShape(False, ((0, 0), (0, 1)), 0.07),
 
             # two vertically
-            TrigonShape(True, ((0, 0), (1, 1)), 0.07),
+            TrigonShape(True, ((0, 0), (1, 0)), 0.07),
 
             # big triangles
-            TrigonShape(True, ((0, 0), (0, 1), (0, -1), (1, 1)), 0.04),
-            TrigonShape(False, ((0, 0), (0, 1), (0, -1), (-1, -1)), 0.04),
+            TrigonShape(True, ((0, 0), (0, 1), (0, -1), (1, 0)), 0.04),
+            TrigonShape(False, ((0, 0), (0, 1), (0, -1), (-1, 0)), 0.04),
 
             # three lined
             TrigonShape(True, ((0, 0), (0, 1), (0, -1)), 0.04),
             TrigonShape(False, ((0, 0), (0, 1), (0, -1)), 0.04),
-            TrigonShape(True, ((0, 0), (1, 1), (0, 1)), 0.04),
-            TrigonShape(True, ((0, 0), (1, 1), (1, 0)), 0.04),
-            TrigonShape(True, ((0, 0), (1, 1), (1, 2)), 0.04),
-            TrigonShape(True, ((0, 0), (1, 1), (0, -1)), 0.04),
+            TrigonShape(True, ((0, 0), (1, 0), (0, 1)), 0.04),
+            TrigonShape(True, ((0, 0), (1, 0), (1, -1)), 0.04),
+            TrigonShape(True, ((0, 0), (1, 0), (1, 1)), 0.04),
+            TrigonShape(True, ((0, 0), (1, 0), (0, -1)), 0.04),
 
             # hexagon
-            TrigonShape(True, ((0, 0), (0, 1), (0, 2), (1, 1), (1, 2), (1, 3)), 0.1),
+            TrigonShape(True, ((0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2)), 0.1),
 
             # hexagons w/o two
-            TrigonShape(True, ((0, 0), (0, -1), (1, 0), (1, 1)), 0.025),
-            TrigonShape(True, ((0, 0), (0, 1), (1, 2), (1, 1)), 0.025),
-            TrigonShape(True, ((0, 0), (0, -1), (0, -2), (1, 1)), 0.025),
-            TrigonShape(True, ((0, 0), (1, 1), (1, 2), (1, 3)), 0.025),
-            TrigonShape(True, ((0, 0), (1, 1), (1, 0), (1, -1)), 0.025),
-            TrigonShape(True, ((0, 0), (0, 1), (0, 2), (1, 1)), 0.025),
+            TrigonShape(True, ((0, 0), (0, -1), (1, -1), (1, 0)), 0.025),
+            TrigonShape(True, ((0, 0), (0, 1), (1, 1), (1, 0)), 0.025),
+            TrigonShape(True, ((0, 0), (0, -1), (0, -2), (1, 0)), 0.025),
+            TrigonShape(True, ((0, 0), (1, 0), (1, 1), (1, 2)), 0.025),
+            TrigonShape(True, ((0, 0), (1, 0), (1, -1), (1, -2)), 0.025),
+            TrigonShape(True, ((0, 0), (0, 1), (0, 2), (1, 0)), 0.025),
 
             # long bars
             TrigonShape(True, ((0, 0), (0, 1), (0, 2), (0, 3)), 0.04),
-            TrigonShape(True, ((0, 0), (0, -1), (1, 1), (1, 2)), 0.04),
-            TrigonShape(True, ((0, 0), (1, 1), (1, 0), (2, 2)), 0.04)
+            TrigonShape(True, ((0, 0), (0, -1), (1, 0), (1, 1)), 0.04),
+            TrigonShape(True, ((0, 0), (1, 0), (1, -1), (2, -1)), 0.04)
         )
         pass
 
@@ -56,15 +56,15 @@ class ShapeFactory:
             counter = 0
             for shape in self.shape_lib:
                 counter += shape.probability
-                if counter <= flag:
+                if counter >= flag:
                     new_shapes.append(shape)
                     break
         if len(new_shapes) != shapes_at_once:
-            raise Exception("Shape library is not correctly defined")
+            raise Exception("Shape library is defined incorrectly")
         return tuple(new_shapes)
 
 
 if __name__ == '__main__':
-    factory = ShapeFactory(123)
-    for shape in factory.shape_lib:
+    factory = ShapeFactory(8)
+    for shape in factory.gen_new_shapes():
         print(shape)

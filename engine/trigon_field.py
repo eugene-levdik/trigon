@@ -37,20 +37,6 @@ class Trigon:
             s += '\n'
         return s
 
-    def does_fit(self, shape, x, y):
-        x -= 1
-        y -= 1
-        for dx, dy in shape.offsets:
-            if x + dx < 0 or x + dx >= len(self.field):
-                return False
-            if y + dy < 0 or y + dy >= len(self.field[y + dy]):
-                return False
-            if self.field[x + dx][y + dy].filled:
-                return False
-        if self.field[x][y].is_up != shape.is_reference_up:
-            return False
-        return True
-
     def clear_full_lines(self):
         is_row1_filled = [True] * (2 * self.size)
         is_row2_filled = [True] * (2 * self.size)
@@ -72,10 +58,29 @@ class Trigon:
                     cleared += 1
         return cleared
 
+    def bend_offset(self, x, offset):
+        off_x, off_y = offset
+        shift = int((len(self.field[x - 1]) - len(self.field[x - 1 + off_x])) / 2)
+        return off_x, off_y - shift
+
+    def does_fit(self, shape, x, y):
+        for offset in shape.offsets:
+            dx, dy = self.bend_offset(x, offset)
+            if x - 1 + dx < 0 or x - 1 + dx >= len(self.field):
+                return False
+            if y - 1 + dy < 0 or y - 1 + dy >= len(self.field[x - 1 + dx]):
+                return False
+            if self.field[x - 1 + dx][y - 1 + dy].filled:
+                return False
+        if self.field[x - 1][y - 1].is_up != shape.is_reference_up:
+            return False
+        return True
+
     def put(self, shape, x, y):
         if not self.does_fit(shape, x, y):
             raise IndexError('The shape does not fit')
-        for dx, dy in shape.offsets:
+        for offset in shape.offsets:
+            dx, dy = self.bend_offset(x, offset)
             self.field[x - 1 + dx][y - 1 + dy].filled = True
         return self.clear_full_lines()
 
